@@ -36,4 +36,10 @@ you want to avoid. The skill uses this only to RANK the issues your
 rubric accepts, never to change a verdict: fit cannot rescue an issue
 your rubric rejects, and cannot sink one it accepts. -->
 
-(Write a few sentences here.)
+I'm most comfortable in Python and backend/API work (service code,
+config, request handlers) and want my first contribution to be in that
+area rather than frontend/JS or ML-pipeline internals. I'd like to get
+more practice reading an unfamiliar service codebase end to end and
+reproducing a bug from a short repro before touching the fix. I'd
+rather avoid issues that are really documentation-writing or pure
+test-fixture edits for this first pick.
