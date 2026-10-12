@@ -55,10 +55,9 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5: issue-scout, my Unit 1 skill grown a search strategy**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+Installed the scout as an overlay on my issue-select skill, wrote a three-query Python-focused search strategy from my fit profile, and ran my first scan (3 accepted, 2 rejected), then patched the rubric twice and the strategy twice from the friction it logged.
 
 **Unit 6: [one line on the tool work]**
 
