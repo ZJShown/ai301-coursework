@@ -177,3 +177,97 @@ own words, and I say what I verified myself.
   hunks I meant to clean up later.
 - A template with blank sections, or a missing AI disclosure where the
   repo asks for one.
+
+## Upstream: how I talk to maintainers
+
+The readers here are maintainers who don't know me and owe me nothing.
+Everything I send them costs their time, so each message has to be
+answerable or actionable from their chair, without them having to
+reconstruct my context.
+
+### Claims I post
+
+#### Rule: A claim carries intent, a first step, and an exit
+
+A claim says which issue I want, the concrete first thing I'll do, and
+that I'll say so if I stop. It never states a date, and it never
+reads as reserving the issue ahead of doing any work.
+
+- Wrong: "I'd love to work on this! Assign it to me and I'll have a PR
+  up by Friday."
+- Right: "I'd like to take this. First I'll reproduce it on 3.2.4 and
+  post what I see here; if I stop working on it I'll say so on the
+  thread."
+
+#### Rule: I don't claim over someone who is already on it
+
+Before I claim, I check the thread, assignees, and linked PRs. If
+another person has claimed it or has an open PR, I don't post a
+competing claim. I ask whether they're still working on it, or I pick
+another issue.
+
+- Wrong: "I'll take this one too, happy to do it if the other PR stalls."
+- Right: "I see @name claimed this last week. @name, are you still
+  working on it? If not I'd be glad to pick it up."
+
+#### Rule: A claim names the open edge it found
+
+If the issue has an open edge (an "etc.", an undecided choice, a file
+nobody named), the claim says which one and what I'd do by default, so
+the maintainer can redirect me before I start rather than after.
+
+- Wrong: "I'll handle all of it." (when the issue says "and similar
+  cases" and I haven't decided what that covers)
+- Right: "The issue says 'and similar cases'; I'd cover the two
+  listed formats only and leave other formats for a follow-up. Tell me
+  if you want a different boundary."
+
+### Questions I ask
+
+#### Rule: One question, answerable from the maintainer's chair
+
+A question asks one thing a maintainer can answer in a sentence or two
+without running anything, and it says what I already checked and what
+I found. I don't bundle several questions, and I don't ask what the
+README, the contributing guide, or the code answers.
+
+- Wrong: "How does this work? Where should I start? Also is there a
+  test setup, and do you want docs too?"
+- Right: "In `health.py` the Redis client is built before settings
+  load. I checked CONTRIBUTING.md and it doesn't say which layer
+  you'd rather fix this in. Should the fix go in the client factory or
+  in the settings model?"
+
+#### Rule: A question offers my default so a yes is enough
+
+When I'm asking a maintainer to choose, I say which option I'd take
+and why, so "yes, go ahead" is a valid reply.
+
+- Wrong: "Should I do A or B?"
+- Right: "I'd do A, since it touches one file; B would also change the
+  public signature. Is A fine?"
+
+### Pings I send
+
+#### Rule: A ping waits on the repo's own rhythm and gives a way out
+
+I ping only after more time than this repo's maintainers usually take
+to reply (I check their recent reply times, not my own calendar), at
+most once, and I make it easy to say no.
+
+- Wrong: "Hi, any update? I've been waiting for a week and would
+  really like to start."
+- Right: "Maintainers here usually answer within a few days, so I'm
+  checking once in case this got buried: is the plan above OK to
+  start on? If this isn't a fit, a short no is fine, and I'll move on."
+
+## Things I never post upstream
+
+- A claim over an issue someone else has claimed or has an open PR
+  for, without asking them first.
+- A claim that promises a date or reserves the issue without a first
+  step.
+- A question that bundles several asks, or asks what the repo's own
+  docs or code already answer.
+- A ping sent on my own timeline, a second ping, or any message that
+  makes the maintainer feel they owe me an answer.

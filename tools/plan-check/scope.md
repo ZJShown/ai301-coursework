@@ -1,50 +1,51 @@
-# Scope: where your issue lives, and the rules of the room
+# Scope: where your plan lands now (the wild)
 
 <!--
-This file is the skill's field of view, live mode only: in eval mode
-the bundle is the whole world and this file is ignored. The rubric
-(rubric.md) decides whether a plan package is READY; the scope decides
-which issues a package may belong to at all, and what the house rules
-are where that issue lives.
+This is the real-world scope for plan-check. It replaces the unit-3
+sandbox scope.md in your INSTALLED skill (activity phase 1 has the
+copy command, beside repro-check's): the field is no longer the Path
+Review repo, and the classroom house rules do not travel. Like every
+scope file, this one is the skill's field of view, live mode only: the
+rubric (rubric.md) decides whether a plan package or your own plan
+draft is READY; the scope decides which issues the skill may plan
+against at all, and what the rules are where that plan lands. Eval
+runs never read this file.
 
-Staff wrote this file. It ships filled; you do not edit it this week.
+Staff wrote this file. It ships filled; there is nothing to edit.
 -->
 
 ## Where your issue lives
 
-Only issues in the course's Path Review repository are in scope this
-week:
+Any public repository, one issue at a time: the issue your claim
+names. That issue comes to you through your own evidence trail, the
+scout's saved scan (a fresh scan's top five, a curated-list pick, or
+an otherwise in-hand pick graded in direct mode) and the claim you
+posted on it. Do not grade plans for an issue you have not claimed;
+the plan chapter of Assignment 5 is written for the issue in your
+selection section, and a plan comment upstream is a public commitment.
 
-- Repo: `codepath/pathreview-ai301-fa26-s1`
+## The wild's rules (the sandbox rules do not travel)
 
-If the repo line above still reads as a bracketed placeholder, your
-cohort's copy has not been finalized: stop and ask your instructor for
-the Path Review repo link before running live mode. Eval runs never
-read this file, so the harness and the eval bar work either way.
+Path Review was a classroom with a coordination channel. Out here the
+readers are strangers, and four rules replace the house rules:
 
-Your plan must belong to the issue you reproduced in week 2 (or the
-house issue the instructor routed you to). Do not grade plan packages
-for issues in any other repository, however tempting; the wider GitHub
-comes later in the course.
-
-## Path Review house rules
-
-Path Review is a classroom, and your classmates are not strangers.
-The rules that were different here in week 2 stay different for the
-plan beat:
-
-- **A classmate's plan comment does not block yours.** Other students
-  may post plans on your issue (and several may). Post your own plan
-  comment anyway, in your own words, built from your own reproduction;
-  this course is the coordination channel that strangers do not have.
-- **Never piggyback a plan.** "Same approach as above" is not a plan
-  comment. Your plan is your work: your diagnosis from your evidence,
-  your scope, your test plan, even on a shared issue.
-- **Branch on your own fork, named `fix/<issue-number>-<slug>`.** The
-  build happens on your fork of the Path Review repo, one branch per
-  issue, so parallel fixes never collide. Push the branch to your
-  fork; nobody pushes to the shared repo this week.
-- **Credit attaches to the PR you open in week 4.** Course credit
-  rides on your posted plan, your branch, and the pull request that
-  follows, not on being first, so a shared issue costs nobody
-  anything.
+- **A posted plan is a claim with an approach attached.** If someone
+  else has already posted a concrete plan on the issue, do not post a
+  competing one; engage theirs in the thread, or pick again. Parallel
+  plans in the classroom were coordination; parallel plans in the wild
+  are a race.
+- **Maintainer direction outranks your plan.** If the thread already
+  says how the maintainers want this handled, your plan either follows
+  that direction or opens a conversation about it before you build.
+  Building against stated direction wastes your work and their
+  patience.
+- **Branch conventions are the repo's, not the course's.** The
+  `fix/<issue>-<slug>` habit is a good default, but the repo's
+  contributing docs (the ones you mined into your memory file) decide
+  branch, commit, and PR conventions. The repo's stated asks always
+  win.
+- **Deviations get reported upstream, not just recorded.** In the
+  sandbox, updating your plan was enough; out here, if your approach
+  changes materially after you posted the plan comment, say so in the
+  thread before the pull request appears. A maintainer who read plan A
+  should never be surprised by diff B.
