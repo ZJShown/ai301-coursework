@@ -72,7 +72,7 @@ I patched my rubric's scope row (it became `Scope is feasible`, with a difficult
 **Unit 7: [one line on the tool work]**
 
 [2-4 sentences: the ship-gate and your gate manifest. What it produced
-on your real branch, what fought you, what changed because of it.]
+on your real branch, what fought you, what changed because of it.] Working on the PR. Having trouble rn
 
 **Unit 8: [one line on the tool work]**
 
