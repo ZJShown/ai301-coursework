@@ -73,10 +73,9 @@ I patched my rubric's scope row (it became `Scope is feasible`, with a difficult
 
 I installed the ship-gate as a second `PreToolUse` hook on `gh pr create` and wrote `ship-manifest.md` from the repo's workflows (setup, pytest, `ruff check`, `mypy src`, the SPDX license-header grep), with an empty excluded table because nothing failed that I wanted to excuse. Its first run on my real branch rejected the PR: pr-precheck saw a 107-file diff, which was my local `main` being stale against upstream, not my change; I moved local `main` to `upstream/main` and the re-run passed. The second thing it stopped was my PR description, which had the AI disclosure at the bottom instead of right after the intent line, so I moved it, re-ran the gate (PASS, all five checks ok), pushed the branch to my fork and set `gh repo set-default` to the original repo. The hook then let `gh pr create` through within its 30-minute window and PR #290 opened on `eclipse-tractusx/tractusx-sdk`.
 
-**Unit 8: [one line on the tool work]**
+**Unit 8: pr-monitor and a playbook of my own rules for the quiet after shipping**
 
-[2-4 sentences: the PR-monitor and your playbook. What it read, what it
-drafted, what you did with the draft.]
+I installed the monitor (no hook, it runs on demand), wrote my playbook from the repo's merge history (outside contributors waited 2 and 7 days, so I set 7 days of quiet as normal and a nudge from day 8), and trimmed it to two or three rules per section after checking it against the step. Its free `--state` run read my real PR (three checks passing, no review, one SonarCloud bot comment) and labeled it FEEDBACK-IN, which was wrong: the only comment was a bot, and the full run on 2026-11-04 agreed and drafted a wait note, not a reply. On 2026-11-10 it drafted another wait note (quiet 6 days, threshold not met, re-check 2026-11-11) and flagged that my playbook's "day 8" date counts from the PR's opening, not from the bot's comment; I kept the opening date. I sent neither draft, since a nudge before my own threshold would have broken my rule, and the Sonar "1 new issue" it told me to look at turned out to be a MINOR style nit (`dict(...)` instead of a literal) on a line I wrote, which I left.
 
 ---
 
@@ -223,6 +222,18 @@ Ran the discovery tests after the manager change: exactly one failed, `test_find
 
 Checking whether my clone was current (it was from Oct 28), I found upstream `main` 35 commits ahead, including a new exception hierarchy (`exceptions.py`) whose rule is that errors the SDK raises on purpose derive from `TractusXSDKError` and, where they replace a builtin like `ConnectionError`, also inherit it. I tested a rebase on a throwaway branch (clean, 972 tests passing), then rebased my branch and added `AuthServiceUnavailableError(TractusXSDKError, ConnectionError)` in place of the bare builtin, with its tests and a row in the exception table in `docs/admin/logging.md`. I also added a test for an empty well-known response, rebuilt the history as four commits in dependency order (exception class, manager, discovery service, docs), added `ruff` and `mypy` to the manifest, and re-ran my reproduction and all checks. Updated `plan.md` and the Implementation Plan to say why the exception type differs from the posted plan note.
 
+**2026-11-03 (later)**
+
+Ran the ship-gate by hand: the first run rejected on a 107-file diff against a stale local `main`, so I moved `main` to `upstream/main` and it passed. I moved the AI disclosure under the intent line of `pr_draft.md`, re-ran the gate (PASS), pushed the branch to my fork, set `gh repo set-default` to the original repo and opened PR #290 through Claude Code, so the voice guard and the gate ran on the real command.
+
+**2026-11-04**
+
+Read the PR's first state: three checks passing, mergeable, one comment from the SonarCloud bot with a passing Quality Gate and "1 new issue". Looked up the issue through the Sonar API: a MINOR style rule on a line of mine, no behavior change. I left it rather than push a new commit that would cost a second gate run on a PR nobody had reviewed yet.
+
+**2026-11-10**
+
+No maintainer or reviewer response after 6 days, which is inside the week I measured for outside contributors in this repo. The monitor drafted a wait note and I sent nothing; my nudge threshold opens on 2026-11-11.
+
 **Toolkit**
 
 - Tool: Claude Code, working from `plan.md` and my `CLAUDE.local.md` repo memory, with the test-first order enforced by me; three focused commits.
@@ -240,7 +251,7 @@ Checking whether my clone was current (it was from Oct 28), I found upstream `ma
 
 **Maintainer Feedback:**
 
-- 2026-11-03: none yet.
+- 2026-11-10: none yet on the PR. The only comment is the SonarCloud bot's passing Quality Gate (2026-11-04), with one MINOR style note (S7498, a `dict(...)` call that could be a literal) that I chose to leave; no human review and no review decision after 6 days. The one maintainer reply so far is on the issue (CDiezRodriguez, 2026-10-29: lazy initialization is what they had in mind).
 
 **Status:** Awaiting review
 
@@ -257,25 +268,25 @@ Checking whether my clone was current (it was from Oct 28), I found upstream `ma
 
 **Technical Skills Gained**
 
-[What you learned technically, named concretely.]
+I learned how python-keycloak's `well_known()` call behaves when a server accepts a connection and never answers (a 60 s timeout with `Retry(total=1)` gives about 120 s, against under 0.1 s for a closed port), and how to make a constructor lazy without breaking its callers: store the parameters, connect in one private `_ensure_connected()`, and map the failure to a dedicated exception (`AuthServiceUnavailableError`, a `TractusXSDKError` and a `ConnectionError`) that `is_authenticated` turns into HTTP 503. I also learned to search for readers of the state I was changing (`connected`), which found a precondition in `find_discovery_urls` and a downstream reader in industry-core-hub, and to write the failing tests first and run them on the unfixed code (4 failed, as intended).
 
 **Challenges Overcome**
 
-[What was hard and how you solved it; point at the real events, the
-Toolkit blocks above are full of them.]
+The hardest part was that my clone was stale: upstream had moved 35 commits, including a new exception hierarchy and CI checks, and I only found out while checking my plan. I rebased on a throwaway branch first, replaced the builtin exception with the repo's own convention, and added `ruff` and `mypy` to my manifest. The ship-gate then caught a second staleness problem (a stale local `main` made my diff look like 107 files), and my voice guard stopped drafts for ordering, two questions in one, and timing words, each fixed in the draft and never by loosening the rules. The guard was also inconsistent from run to run, so I re-ran drafts before trusting a pass. Last, I deleted my first claim by accident of timing and re-posted it a week later after the scan showed the issue still unclaimed.
 
 **What I'd Do Differently Next Time**
 
-[Reflection on your process.]
+I would run `git fetch upstream` and compare against it before writing the plan, not after the code, because the stale base cost me a rebase, a changed exception type and a rewritten plan note. I would also pick a threshold for waiting before I ship, not after, so I'm not deciding how long quiet is normal while I'm anxious about the quiet. And I'd read downstream consumers of a public attribute earlier: the `connected` behavior change is the one real risk in this PR and I found it late, so it is a flagged question, not a settled design.
 
 ---
 
 ## Resources Used
 
-[What actually helped, not a reading list. List things this story
-already shows you using: the doc you followed to set the environment
-up, the thread that explained the bug, the person who answered you.
-One real entry beats ten plausible ones.]
+The sources below are the ones this story used.
 
-- [Link to documentation that helped]
-- [Discussion, issue, or post that helped]
+- Issue #269 and the maintainer's reply on it (https://github.com/eclipse-tractusx/tractusx-sdk/issues/269): CDiezRodriguez confirmed lazy initialization was the intended direction, which made the plan safe to build.
+- The python-keycloak 4.7.3 source in my venv: where I confirmed the 60 s timeout and `Retry(total=1)` behind the 120 s block, instead of trusting my memory.
+- The repo's own `src/tractusx_sdk/exceptions.py` and `docs/admin/logging.md`: the exception convention I followed after the rebase.
+- `CONTRIBUTING.md`, `.github/workflows/` (`test-report.yaml`, `quality.yaml`, `verify.yml`): where my ship manifest's commands came from.
+- The repo's merged-PR history (`gh pr list --state merged`): the rhythm behind my 7-day threshold in the playbook.
+- My own tools: issue-scout's scan output, the voice-guard log, the ship-gate log and the monitor's run report, which are the evidence behind the Toolkit entries.
